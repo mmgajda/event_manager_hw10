@@ -123,3 +123,23 @@ def test_email_validation(email, valid, user_create_data):
     else:
         with pytest.raises(ValidationError):
             UserCreate(**user_create_data)
+            
+# Parametrized tests for picture format and picture URL validation 
+
+@pytest.mark.parametrize("url, valid", [
+    ("https://example.com/profile.jpg", True),
+    ("https://example.com/profile.jpeg", True),
+    ("https://example.com/profile.png", True),
+    ("https://example.com/profile.bmp", False),  # Assuming only jpg, jpeg, and png are valid
+    ("https://example.com/", False),
+    ("", False)  # Assuming the URL cannot be empty
+])
+def test_profile_picture_url_validation(url, valid, user_create_data):
+    user_create_data["profile_picture_url"] = url
+    if valid:
+        user = UserCreate(**user_create_data)
+        assert user.profile_picture_url == url
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
+
