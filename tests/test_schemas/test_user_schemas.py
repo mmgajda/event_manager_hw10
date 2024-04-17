@@ -106,3 +106,20 @@ def test_username_validation(username, valid, user_create_data):
     else:
         with pytest.raises(ValidationError):
             UserCreate(**user_create_data)
+
+# Parametrized tests for email format validation
+
+@pytest.mark.parametrize("email, valid", [
+    ("email@example.com", True),
+    ("not-an-email", False),
+    ("another.email@example.co", True),
+    ("invalid-email@", False)
+])
+def test_email_validation(email, valid, user_create_data):
+    user_create_data["email"] = email
+    if valid:
+        user = UserCreate(**user_create_data)
+        assert user.email == email
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
