@@ -58,7 +58,26 @@ def test_user_base_url_valid(url, user_base_data):
 def test_user_base_url_invalid(url, user_base_data):
     user_base_data["profile_picture_url"] = url
     with pytest.raises(ValidationError):
-        UserBase(**user_base_data)
+        
+        
+""" Start of added tests - MMG """
+# Parametrized tests for username length and special character(s) validation
+
+@pytest.mark.parametrize("username, valid", [
+    ("a"*51, False),  # Exceeding max length
+    ("ab", False),    # Below min length
+    ("valid_username", True),
+    ("invalid_username?", False),  # Invalid character
+    ("another-valid_username123", True)
+])
+def test_username_validation(username, valid, user_create_data):
+    user_create_data["username"] = username
+    if valid:
+        user = UserCreate(**user_create_data)
+        assert user.username == username
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
 
 # Tests for UserBase
 def test_user_base_invalid_email(user_base_data_invalid):
