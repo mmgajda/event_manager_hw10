@@ -86,3 +86,38 @@ def test_user_base_invalid_email(user_base_data_invalid):
     
     assert "value is not a valid email address" in str(exc_info.value)
     assert "john.doe.example.com" in str(exc_info.value)
+
+@pytest.mark.parametrize("email, valid", [
+    ("email@example.com", True),
+    ("not-an-email", False),
+    ("another.email@example.co", True),
+    ("invalid-email@", False)
+])
+def test_email_validation(email, valid, user_create_data):
+    user_create_data["email"] = email
+    if valid:
+        user = UserCreate(**user_create_data)
+        assert user.email == email
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
+            
+# Parametrized tests for picture format and picture URL validation 
+
+@pytest.mark.parametrize("url, valid", [
+    ("https://example.com/profile.jpg", True),
+    ("https://example.com/profile.jpeg", True),
+    ("https://example.com/profile.png", True),
+    ("https://example.com/profile.bmp", False),  # Assuming only jpg, jpeg, and png are valid
+    ("https://example.com/", False),
+    ("", False)  # Assuming the URL cannot be empty
+])
+def test_profile_picture_url_validation(url, valid, user_create_data):
+    user_create_data["profile_picture_url"] = url
+    if valid:
+        user = UserCreate(**user_create_data)
+        assert user.profile_picture_url == url
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
+
