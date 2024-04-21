@@ -10,6 +10,18 @@
 
 5) [Implementation of Password History Logging and Enforcement](https://github.com/mmgajda/event_manager_hw10/issues/9)
 
+## Dockerhub Image
+
+## Reflection   
+
+  The first thing that really stuck out for me was how difficult it can be to understand a code base with so many parts.  This repository isn't large when you consider enterprise and professional applications, but it has far more moving pieces than anything I have done at NJIT or personally thus far.  QA, testing, and improving the code must begin with having a good understanding of how each part works and how it works together.
+  This assignment also helped me to understand just how many things must be accounted for when any kind of user input is handled.  All input must be sanitized and validated so that things can work smoothly and also to prevent any kind of malicious input, code injection, etc.
+  It is also very important that everything that is protected by login remains secure as well, and to this end it is important to institute aggressive policies towards password creation, hashing, storage, and controls for login.  In testing I realized that there were several issues with input at user creation and that there did not seem to be any storage of previous passwords.
+  I created Github Issues as I came across these problems.  I then created a new branch to troubleshoot the code and implementation.  When everything was working I would push it to Github, create/merge the pull request, and close the issue.
+
+
+
+
 1. **GitHub Repository Link**: Ensure that your repository is well-organized and includes:
   - Links to five closed issues, each with accompanying test code and necessary application code modifications.
   - Each issue should be well-documented, explaining the problem, the steps taken to resolve it, and the outcome. Proper documentation helps others understand your work and facilitates future maintenance.
