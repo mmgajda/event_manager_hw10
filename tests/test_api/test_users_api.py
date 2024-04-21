@@ -115,4 +115,3 @@ async def test_delete_user_does_not_exist(async_client, token):
     headers = {"Authorization": f"Bearer {token}"}
     delete_response = await async_client.delete(f"/users/{non_existent_user_id}", headers=headers)
     assert delete_response.status_code == 404
-

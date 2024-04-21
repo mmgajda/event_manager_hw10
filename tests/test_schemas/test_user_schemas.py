@@ -143,3 +143,22 @@ def test_profile_picture_url_validation(url, valid, user_create_data):
         with pytest.raises(ValidationError):
             UserCreate(**user_create_data)
 
+# Parametrized test for password complexity validation
+
+@pytest.mark.parametrize("password, is_valid", [
+    ("Short1!", False),  # Too short
+    ("longpasswordwithoutdigitsorspecials", False),  # No digits or special characters
+    ("Longpassword123", False),  # No special characters
+    ("Longpassword!noDigits", False),  # No digits
+    ("ValidPassword123!", True),  # Valid password
+])
+def test_password_complexity(password, is_valid, user_create_data):
+    user_create_data['password'] = password
+    if is_valid:
+        user = UserCreate(**user_create_data)
+        assert user.password == password
+    else:
+        with pytest.raises(ValidationError):
+            UserCreate(**user_create_data)
+            
+
